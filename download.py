@@ -2,17 +2,25 @@ import yt_dlp
 import os
 
 def unduh_media():
-    print("=== PENGUNDUH MEDIA OTOMATIS ===")
-    url = input("Masukkan URL video (YouTube, dll): ")
+    print("=== PENGUNDUH MEDIA OTOMATIS (V2) ===")
+    url = input("Masukkan URL video (YouTube, TikTok, IG, dll): ")
     
-    # Lokasi penyimpanan: Folder 'Download' di memori internal HP kamu
     folder_tujuan = '/sdcard/Download/'
     
-    # Konfigurasi yt-dlp
+    # Konfigurasi sakti untuk mengelabui server ketat seperti TikTok & IG
     ydl_opts = {
-        'format': 'bestvideo+bestaudio/best', # Ambil kualitas terbaik
-        'outtmpl': os.path.join(folder_tujuan, '%(title)s.%(ext)s'), # Format nama file
-        'merge_output_format': 'mp4', # Gabungkan jadi format MP4
+        'format': 'bestvideo+bestaudio/best', 
+        'outtmpl': os.path.join(folder_tujuan, '%(title)s.%(ext)s'), 
+        'merge_output_format': 'mp4',
+        
+        # TRIK MENEMBUS BLOKIR:
+        # 1. Menyamar sebagai browser Chrome Android/Windows asli (User-Agent)
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        # 2. Mengabaikan cek sertifikat SSL yang sering bikin error di Termux
+        'nocheckcertificate': True,
+        # 3. Paksa coba ulang otomatis kalau koneksi mendadak diputus server
+        'retries': 10,
+        'fragment_retries': 10,
     }
     
     print("\nSedang mengunduh... Mohon tunggu sebentar.")
@@ -25,3 +33,4 @@ def unduh_media():
 
 if __name__ == '__main__':
     unduh_media()
+
